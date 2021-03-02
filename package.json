@@ -10,12 +10,13 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
+    "uuid": "8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "BROWSER=none react-scripts start",
+    "start": "NODE_ENV=development BROWSER=none react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "NODE_ENV=test react-scripts test",
     "eject": "react-scripts eject",
     "commit": "cz",
     "git": "git add . && cz && git push",
