@@ -1,5 +1,6 @@
 import React from "react";
 import { useInfiniteScroll } from "./hooks";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const InfiniteScroll = (props) => {
   const { loadingImages, cb, children } = props;
@@ -9,7 +10,7 @@ const InfiniteScroll = (props) => {
     <>
       {children}
       <div className="infinite-scroll" ref={loader}>
-        {loadingImages && <h2>LOADING NEW IMAGES</h2>}
+        {loadingImages && <CircularProgress id="circular-progress" />}
       </div>
     </>
   );

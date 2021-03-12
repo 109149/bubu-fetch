@@ -17,14 +17,15 @@ describe("InfiniteScroll", function () {
     expect(screen.queryByText("A")).toBeNull();
   });
 
-  it("should toggle display text 'LOADING NEW IMAGES'", function () {
+  it("should toggle display circular progress", function () {
     const { rerender } = render(<InfiniteScroll loadingImages={true} />);
 
-    expect(screen.queryByText(/^LOADING NEW IMAGES$/)).toBeInTheDocument();
+    let circle = document.querySelector("#circular-progress").firstChild
+      .firstChild.nodeName;
+    expect(circle).toBe("circle");
 
     rerender(<InfiniteScroll loadingImages={false} />);
-
-    expect(screen.queryByText(/^LOADING NEW IMAGES$/)).not.toBeInTheDocument();
+    expect(document.querySelector("#circular-progress")).toBeNull();
   });
 
   it("should render with all props passed", function () {
@@ -35,6 +36,5 @@ describe("InfiniteScroll", function () {
     );
 
     expect(screen.queryByText(/^WITH CHILDREN$/)).toBeInTheDocument();
-    expect(screen.queryByText(/^LOADING NEW IMAGES$/)).toBeInTheDocument();
   });
 });

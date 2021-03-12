@@ -1,5 +1,21 @@
 import React from "react";
 
+const Right = (x) => ({
+  chain: (f) => f(x),
+  map: (f) => Right(f(x)),
+  fold: (f, g) => g(x),
+  toString: `Right(${x})`,
+});
+
+const Left = (x) => ({
+  chain: (f) => Left(x),
+  map: (f) => Left(x),
+  fold: (f, g) => f(x),
+  toString: `Left(${x})`,
+});
+
+const fromNullable = (x) => (x != null ? Right(x) : Left());
+
 const useInfiniteScroll = (cb) => {
   const loader = React.useRef(null);
 
@@ -16,7 +32,12 @@ const useInfiniteScroll = (cb) => {
 
     const observer = new IntersectionObserver(handleObserver, options);
 
-    if (loader.current) observer.observe(loader.current);
+    fromNullable(loader.current).fold(
+      () => "current is null",
+      observer.observe
+    );
+
+    // if (loader.current) observer.observe(loader.current);
   }, [cb]);
 
   return loader;
