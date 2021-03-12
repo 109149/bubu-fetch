@@ -1,0 +1,28 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [$default-branch]
+  pull_request:
+    branches: [$default-branch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # `npm ci` is generally faster than `npm install`
+      # and prevents update to package-lock.json.
+      # In case for `yarn`, use `yarn --frozen-lockfile`.
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
